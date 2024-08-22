@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="NiceSidebarLaz"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Priyatna"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\source"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="NiceSideBar is a visual component for Delphi and Lazarus that can be used as a menu. It mimics a side menu that usually used in websites. It has a flat design and is highly customizable. It supports two menu levels (menu and sub menu). Each menu can have a glyph that is supplied by an image list. It has hover state effect, too."/>
+    <License Value="MPL 1.1"/>
+    <Version Major="2"/>
+    <Files Count="2">
+      <Item1>
+        <Filename Value="..\..\source\NiceSideBar.pas"/>
+        <UnitName Value="NiceSideBar"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\source\NiceSideBarReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="NiceSideBarReg"/>
+      </Item2>
+    </Files>
+    <CompatibilityMode Value="True"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="IDEIntf"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

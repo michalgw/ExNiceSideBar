@@ -1,0 +1,30 @@
+object Form1: TForm1
+  Left = 369
+  Height = 480
+  Top = 174
+  Width = 598
+  Caption = 'NiceSideBar Demo - priyatna.org'
+  ClientHeight = 480
+  ClientWidth = 598
+  Color = clBtnFace
+  OnCreate = FormCreate
+  LCLVersion = '2.3.0.0'
+  object Button1: TButton
+    Left = 312
+    Height = 25
+    Top = 120
+    Width = 129
+    Caption = 'Set ItemIndex'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object Button2: TButton
+    Left = 312
+    Height = 25
+    Top = 160
+    Width = 129
+    Caption = 'Set SubItemIndex'
+    OnClick = Button2Click
+    TabOrder = 1
+  end
+end

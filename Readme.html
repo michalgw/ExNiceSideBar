@@ -1,0 +1,211 @@
+<html>
+<title>NiceSideBar Component</title>
+<style type="text/css">
+<!--
+body, td {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9pt}
+-->
+</style>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="6"><b><font size="4">NiceSideBar 
+  v1.20</font></b></font><br>
+  &copy; 2008, Priyatna<br>
+  Bandung - Indonesia</p>
+<p><a href="http://www.priyatna.org/">http://www.priyatna.org/</a><br>
+  <a href="mailto:me@priyatna.org">mailto:me@priyatna.org</a></p>
+<p><a href="#intro">Introduction</a><br>
+  <a href="#history">Version History</a><br>
+  <a href="#license">License</a><br>
+  <a href="#install">Installation</a><a href="#methods"><br>
+  Methods</a><br>
+  <a href="#properties">Properties</a> <br>
+  <a href="#contact">Contacts</a></p>
+<p><font size="1">Version: 1.2 <br>
+  Release Date: January 12, 2008<br>
+  </font></p>
+<p>&nbsp; </p>
+<font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="intro"></a></b></font>
+<hr>
+<p></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Introduction</b></font></p>
+<p>NiceSideBar is a visual component for Delphi that can be used as a menu. It 
+  mimics side menu that usually used in websites. It has flat design and highly 
+  customizable. It supports two menu levels (menu and sub menu). Each menu can 
+  have a glyph that is supplied by an image list. It has hover state effect too.</p>
+<p>&nbsp;</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="history"></a></b></font> 
+</p>
+<hr>
+<p></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Version History</b></font></p>
+<p>
+  <b>Version 1.2 (January 12, 2008)</b><br>
+  - Added properties to items and subitems: Enabled, Visible, ItemEnabled, ItemVisible<br>
+  - Added properties: disabled colors, disabled images<br>
+  - Keyboard control: PgUp, PgDown, Up and Down arrows<br>
+  - Reported bugs fixed<br>
+  <br>
+  <b>Version 1.1 (June 28, 2007)</b><br>
+  Reported bugs fixed<br>
+  <br>
+  <b>Version 1.0 (May 26th, 2007)</b><br>
+  Initial Release</p>
+<p>&nbsp;</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="license"></a></b></font> 
+</p>
+<hr>
+<p>&nbsp;</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>License</b></font></p>
+<p>This library is released under Mozilla Public License. You can use it in your 
+  freeware, shareware or commercial softwares. You can send your modification 
+  to me, and if I decide to include it in the main distribution, I will add your 
+  name as a contributor. You can read full licensing information <a href="License.txt">here</a>. 
+</p>
+<p>&nbsp; </p>
+<font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="install"></a></b></font>
+<hr>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Installation</b></font></p>
+<p>There is no special process to install it on Delphi. Just open <b>NiceSideBarD7.dpk</b> 
+  on Delphi IDE and press Install button. I use Delphi 7. If you use another Delphi 
+  version, you may have to make some minor changes.</p>
+<p>The component will appear in <b>priyatna.org</b> tab.</p>
+<p>&nbsp;</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="methods"></a></b></font> 
+</p>
+<hr>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Methods</b></font></p>
+<p>There are some main methods of the component:</p>
+<ul>
+  <li><b>procedure</b> BeginUpdate;<br>
+    Call this method to temporarily prevent the control from updating its content. 
+    This is useful when you want to add bulky items to the control.<br>
+    <br>
+  </li>
+  <li><b>procedure</b> EndUpdate;<br>
+    This method is used to re-enable update after calling BeginUpdate. You must 
+    call BeginUpdate prior to call this method.</li>
+</ul>
+<p>&nbsp;</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="properties"></a></b></font> 
+</p>
+<hr>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Properties</b></font></p>
+<p>There are some main properties of the component:</p>
+<ul>
+  <li><b>property</b> Items: TSideBarItems;<br>
+    A collection of items. Each item usually have subitems. You can associate 
+    item as a menu group. Item can have a glyph supplied from an image list, while 
+    sub items use bullets.<br>
+    <br>
+  </li>
+  <li><b>property</b> ItemIndex: Integer;<br>
+    Specifies which item is currently selected.<br>
+    <br>
+  </li>
+  <li><b>property</b> SubItemIndex: Integer;<br>
+    Specifies which sub item is currently selected.<br>
+    <br>
+  </li>
+  <li><b>property</b> ItemStyle: TSideBarItemStyle;<br>
+    This is where you can customize item: normal state font and color, selected 
+    state font and color, hover state font and color, and also line color.<br>
+    <br>
+  </li>
+  <li><b>property</b> SubItemStyle: TSideBarItemStyle;<br>
+    This is where you can customize sub items: normal state font and color, selected 
+    state font and color, hover state font and color, and also line color.<br>
+    <br>
+  </li>
+  <li><b>property</b> Bullets: TSideBarBulletStyle;<br>
+    This is where you can customize bullets: visibility, normal hover and selected 
+    state colors, outline colors and size. Currently it has three bullet style: 
+    round, rectangle and diamond.<br>
+    <br>
+  </li>
+  <li><b>property</b> Scrollers: TSideBarScrollerStyle;<br>
+    This is where you can customize scroller arrow: normal, hover and selected 
+    colors and outline colors.<br>
+    <br>
+  </li>
+  <li><b>property</b> ItemHeight: Integer;<br>
+    Specifies item height in pixel.<br>
+    <br>
+  </li>
+  <li><b>property</b> SubItemHeight: Integer;<br>
+    Specifies sub item height in pixel.<br>
+    <br>
+  </li>
+  <li> <b>property</b> Alignment: TSideBarAlign;<br>
+    Specifies caption alignment: left, right or centered.<br>
+    <br>
+  </li>
+  <li> <b>property</b> Margin: Integer;<br>
+    Specifies margin in pixel.<br>
+    <br>
+  </li>
+  <li><b>property</b> GroupSeparator: Integer;<br>
+    Specifies vertical margin between group (item) in pixel.<br>
+    <br>
+  </li>
+  <li><b>property</b> Indent: Integer;<br>
+    Specifies indent value for sub items in pixel.<br>
+    <br>
+  </li>
+  <li><b>property</b> AlwaysExpand: Boolean;<br>
+    Set to True if you want the control to always expands its subitems.<br>
+    <br>
+  </li>
+  <li><b>property</b> Images: TImageList;<br>
+    Specifies image list to use for items.<br>
+    <br>
+  </li>
+  <li><b>property</b> HoverImages: TImageList;<br>
+    Specifies image list to use for items when in in hover mode.<br>
+    <br>
+  </li>
+  <li><b>property</b> SelectedImages: TImageList;<br>
+    Specifies image list to use for items when in selected mode.<br>
+    <br>
+  </li>
+  <li><b>property</b> HandPointCursor: Boolean;<br>
+    Set to True to use handpoint cursor instead the default one.<br>
+    <br>
+  </li>
+  <li><b>property</b> OnHover: TSideBarEvent;<br>
+    An event that is fired everytime user hovers it mouse over an item or sub 
+    item.<br>
+    <br>
+  </li>
+  <li><b>property</b> OnSelect: TSideBarEvent;<br>
+    An event that is fired everytime user select an item or sub item.<br>
+    <br>
+  </li>
+  <li><b>property</b> OnCustomDrawItem: TSideBarCustomDrawItem;<br>
+    You can customize item drawing by handling this event.<br>
+    <br>
+  </li>
+  <li><b>property</b> OnCustomDrawSubItem: TSideBarCustomDrawSubItem;<br>
+    You can customize sub item drawing by handling this event.<br>
+    <br>
+  </li>
+  <li><b>property</b> OnCustomDrawNonItem: TSideBarCustomDrawNonItem;<br>
+    You can customize background drawing by handling this event.<br>
+    <br>
+  </li>
+  <li><b>property</b> OnCustomDrawScroller: TSideBarCustomDrawScroller;<br>
+    You can customize scroller drawing by handling this event. <i><br>
+    </i></li>
+</ul>
+<p>&nbsp; </p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="contact"></a></b></font> 
+</p>
+<hr>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Contacts</b></font></p>
+<p>Don't hesitate to report any bug or whish to me:<br>
+</p>
+<p>Priyatna<br>
+  Bandung - Indonesia</p>
+<p><a href="http://www.priyatna.org/">http://www.priyatna.org/</a><br>
+  <a href="mailto:me@priyatna.org">mailto:me@priyatna.org</a></p>
+<p>&nbsp;</p>
+</html>
