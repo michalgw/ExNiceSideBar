@@ -29,7 +29,7 @@ of this file under either the MPL or the GPL.
 
 -------------------------------------------------------------------------------}
 
-unit NiceSideBar;
+unit ExNiceSideBar;
 
 {$IFDEF FPC}
  {$MODE Delphi}
@@ -53,32 +53,34 @@ const
   clDefaultHoverFont = clRed;
 
 type
-  TSideBarState = (ssNormal, ssHover, ssSelected, ssDisabled);
+  TExSideBarState = (ssNormal, ssHover, ssSelected, ssDisabled);
 
-  TSideBarStates = set of TSideBarState;
+  TExSideBarStates = set of TExSideBarState;
 
-  TSideBarAlign = (saLeft, saCenter, saRight);
+  TExSideBarAlign = (saLeft, saCenter, saRight);
 
-  TSideBarBullet = (sbRound, sbRectangle, sbDiamond);
+  TExSideBarBullet = (sbRound, sbRectangle, sbDiamond);
 
-  TSideBarEvent = procedure (Sender: TObject; Index, SubIndex: Integer;
+  TExSideBarEvent = procedure (Sender: TObject; Index, SubIndex: Integer;
     Caption: string) of object;
 
-  TSideBarCustomDrawItem = procedure (Sender: TObject; ACanvas: TCanvas;
-    Rc: TRect; Str: string; States: TSideBarStates; ImageIndex: Integer) of object;
+  TExSideBarCustomDrawItem = procedure (Sender: TObject; ACanvas: TCanvas;
+    Rc: TRect; Str: string; States: TExSideBarStates; ImageIndex: Integer) of object;
 
-  TSideBarCustomDrawSubItem = procedure (Sender: TObject; ACanvas: TCanvas;
-    Rc: TRect; Str: string; States: TSideBarStates) of object;
+  TExSideBarCustomDrawSubItem = procedure (Sender: TObject; ACanvas: TCanvas;
+    Rc: TRect; Str: string; States: TExSideBarStates) of object;
 
-  TSideBarCustomDrawNonItem = procedure (Sender: TObject; ACanvas: TCanvas;
+  TExSideBarCustomDrawNonItem = procedure (Sender: TObject; ACanvas: TCanvas;
     Rc: TRect) of object;
 
-  TSideBarCustomDrawScroller= procedure (Sender: TObject; ACanvas: TCanvas;
+  TExSideBarCustomDrawScroller= procedure (Sender: TObject; ACanvas: TCanvas;
     Rc: TRect; Up: Boolean; Hover: Boolean) of object;
 
-  TNiceSideBar = class;
+  TExNiceSideBar = class;
 
-  TSideBarItem = class(TCollectionItem)
+  { TExSideBarItem }
+
+  TExSideBarItem = class(TCollectionItem)
   private
     FCaption: string;
     FImageIndex: TImageIndex;
@@ -88,7 +90,7 @@ type
     FStates: TList;
     FVisible: Boolean;
     FEnabled: Boolean;
-    function GetSideBar: TNiceSideBar;
+    function GetSideBar: TExNiceSideBar;
     procedure SetCaption(Value: string);
     procedure SetImageIndex(Value: TImageIndex);
     procedure SetItems(Value: TStringList);
@@ -110,7 +112,7 @@ type
     property ItemEnabled[Index: Integer]: Boolean read GetItemEnabled write SetItemEnabled;
     property ItemVisible[Index: Integer]: Boolean read GetItemVisible write SetItemVisible;
   published
-    property SideBar: TNiceSideBar read GetSideBar;
+    property SideBar: TExNiceSideBar read GetSideBar;
     property Caption: string read FCaption write SetCaption;
     property ImageIndex: TImageIndex read FImageIndex write SetImageIndex default -1;
     property Items: TStringList read FItems write SetItems;
@@ -120,26 +122,30 @@ type
     property Visible: Boolean read FVisible write SetVisible default True;
   end;
 
-  TSideBarItems = class(TCollection)
+  { TExSideBarItems }
+
+  TExSideBarItems = class(TCollection)
   private
-    FSideBar: TNiceSideBar;
-    function GetItem(Index: Integer): TSideBarItem;
-    procedure SetItem(Index: Integer; Value: TSideBarItem);
+    FSideBar: TExNiceSideBar;
+    function GetItem(Index: Integer): TExSideBarItem;
+    procedure SetItem(Index: Integer; Value: TExSideBarItem);
   protected
     function GetOwner: TPersistent; override;
     procedure Update(Item: TCollectionItem); override;
   public
-    constructor Create(ASideBar: TNiceSideBar);
-    property SideBar: TNiceSideBar read FSideBar;
-    property Items[Index: Integer]: TSideBarItem read GetItem write SetItem; default;
-    function Add: TSideBarItem;
-    function AddItem(Item: TSideBarItem; Index: Integer): TSideBarItem;
-    function Insert(Index: Integer): TSideBarItem;
+    constructor Create(ASideBar: TExNiceSideBar);
+    property SideBar: TExNiceSideBar read FSideBar;
+    property Items[Index: Integer]: TExSideBarItem read GetItem write SetItem; default;
+    function Add: TExSideBarItem;
+    function AddItem(Item: TExSideBarItem; Index: Integer): TExSideBarItem;
+    function Insert(Index: Integer): TExSideBarItem;
   end;
 
-  TSideBarItemStyle = class(TPersistent)
+  { TExSideBarItemStyle }
+
+  TExSideBarItemStyle = class(TPersistent)
   private
-    FSideBar: TNiceSideBar;
+    FSideBar: TExNiceSideBar;
     FSelectedColor: TColor;
     FHoverColor: TColor;
     FNormalColor: TColor;
@@ -160,7 +166,7 @@ type
   protected
     procedure AssignTo(Dest: TPersistent); override;
   public
-    constructor Create(SideBar: TNiceSideBar);
+    constructor Create(SideBar: TExNiceSideBar);
     destructor Destroy; override;
     procedure Activate;
   published
@@ -174,9 +180,11 @@ type
     property LineColor: TColor read FLineColor write SetLineColor default clWindowText;
   end;
 
-  TSideBarBulletStyle = class(TPersistent)
+  { TExSideBarBulletStyle }
+
+  TExSideBarBulletStyle = class(TPersistent)
   private
-    FSideBar: TNiceSideBar;
+    FSideBar: TExNiceSideBar;
     FHoverColor: TColor;
     FSelectedPenColor: TColor;
     FNormalColor: TColor;
@@ -184,7 +192,7 @@ type
     FNormalPenColor: TColor;
     FSelectedColor: TColor;
     FVisible: Boolean;
-    FKind: TSideBarBullet;
+    FKind: TExSideBarBullet;
     FSize: Integer;
     FDisabledPenColor: TColor;
     FDisabledColor: TColor;
@@ -192,7 +200,7 @@ type
     procedure SetNormalPenColor(const Value: TColor);
     procedure SetSelectedColor(const Value: TColor);
     procedure SetSelectedPenColor(const Value: TColor);
-    procedure SetKind(const Value: TSideBarBullet);
+    procedure SetKind(const Value: TExSideBarBullet);
     procedure SetVisible(const Value: Boolean);
     procedure SetSize(const Value: Integer);
     procedure SetDisabledColor(const Value: TColor);
@@ -200,11 +208,11 @@ type
   protected
     procedure AssignTo(Dest: TPersistent); override;
   public
-    constructor Create(SideBar: TNiceSideBar);
+    constructor Create(SideBar: TExNiceSideBar);
   published  
     property Visible: Boolean read FVisible write SetVisible default True;
     property Size: Integer read FSize write SetSize default 5;
-    property Kind: TSideBarBullet read FKind write SetKind default sbRound;
+    property Kind: TExSideBarBullet read FKind write SetKind default sbRound;
     property NormalColor: TColor read FNormalColor write SetNormalColor default clWindowText;
     property HoverColor: TColor read FHoverColor write FHoverColor default clDefaultHoverFont;
     property SelectedColor: TColor read FSelectedColor write SetSelectedColor default clWindowText;
@@ -215,9 +223,11 @@ type
     property DisabledPenColor: TColor read FDisabledPenColor write SetDisabledPenColor default clGrayText;
   end;
 
-  TSideBarScrollerStyle = class(TPersistent)
+  { TExSideBarScrollerStyle }
+
+  TExSideBarScrollerStyle = class(TPersistent)
   private
-    FSideBar: TNiceSideBar;
+    FSideBar: TExNiceSideBar;
     FHoverColor: TColor;
     FNormalArrowColor: TColor;
     FNormalColor: TColor;
@@ -227,7 +237,7 @@ type
   protected
     procedure AssignTo(Dest: TPersistent); override;
   public
-    constructor Create(SideBar: TNiceSideBar);
+    constructor Create(SideBar: TExNiceSideBar);
   published  
     property NormalColor: TColor read FNormalColor write SetNormalColor default clBlack;
     property HoverColor: TColor read FHoverColor write FHoverColor default clWhite;
@@ -235,11 +245,11 @@ type
     property HoverArrowColor: TColor read FHoverArrowColor write FHoverArrowColor default clBlack;
   end;
 
-  TNiceSideBar = class(TCustomPanel)
+  TExNiceSideBar = class(TCustomPanel)
   private
     FList: TList;
-    FItems: TSideBarItems;
-    FAlignment: TSideBarAlign;
+    FItems: TExSideBarItems;
+    FAlignment: TExSideBarAlign;
     FHandPointCursor: Boolean;
     FItemIndex: Integer;
     FSubItemIndex: Integer;
@@ -249,12 +259,12 @@ type
     FHoverImages: TImageList;
     FSelectedImages: TImageList;
     FDisabledImages: TImageList;
-    FOnHover: TSideBarEvent;
-    FOnSelect: TSideBarEvent;
-    FOnCustomDrawItem: TSideBarCustomDrawItem;
-    FOnCustomDrawSubItem: TSideBarCustomDrawSubItem;
-    FOnCustomDrawNonItem: TSideBarCustomDrawNonItem;
-    FOnCustomDrawScroller: TSideBarCustomDrawScroller;
+    FOnHover: TExSideBarEvent;
+    FOnSelect: TExSideBarEvent;
+    FOnCustomDrawItem: TExSideBarCustomDrawItem;
+    FOnCustomDrawSubItem: TExSideBarCustomDrawSubItem;
+    FOnCustomDrawNonItem: TExSideBarCustomDrawNonItem;
+    FOnCustomDrawScroller: TExSideBarCustomDrawScroller;
     TopIndex, BottomIndex: Integer;
     DeltaY: Integer;
     LastIndex: Integer;
@@ -267,10 +277,10 @@ type
     IsUpdating: Boolean;
     FIndent: Integer;
     FAlwaysExpand: Boolean;
-    FItemStyle: TSideBarItemStyle;
-    FSubItemStyle: TSideBarItemStyle;
-    FBullets: TSideBarBulletStyle;
-    FScrollers: TSideBarScrollerStyle;
+    FItemStyle: TExSideBarItemStyle;
+    FSubItemStyle: TExSideBarItemStyle;
+    FBullets: TExSideBarBulletStyle;
+    FScrollers: TExSideBarScrollerStyle;
     {$IFDEF FPC}
     procedure CMColorChanged(var Msg: TLMessage); message CM_COLORCHANGED;
     procedure CMMouseLeave(var Msg: TLMessage); message CM_MOUSELEAVE;
@@ -291,11 +301,11 @@ type
     function IsStoredMargin: Boolean;
     function IsStoredIndent: Boolean;
     function IsStoredGroupSeparator: Boolean;
-    procedure SetItems(Value: TSideBarItems);
+    procedure SetItems(Value: TExSideBarItems);
     procedure SetItemIndex(Value: Integer);
     procedure SetSubItemIndex(Value: Integer);
     procedure SetItemHeight(Value: Integer);
-    procedure SetAlignment(Value: TSideBarAlign);
+    procedure SetAlignment(Value: TExSideBarAlign);
     procedure SetSubItemHeight(Value: Integer);
     procedure SetImages(Value: TImageList);
     procedure SetHoverImages(Value: TImageList);
@@ -306,25 +316,25 @@ type
     procedure ListChange(RebuildItems: Boolean);
     procedure DoDrawItem(Index: Integer);
     function GetIndexAtPos(X, Y: Integer): Integer;
-    function CreateItem: TSideBarItem;
+    function CreateItem: TExSideBarItem;
     procedure UpdateItem(Index: Integer);
     procedure UpdateItems;
     procedure SetMargin(const Value: Integer);
     procedure SetGroupSeparator(const Value: Integer);
     procedure SetIndent(const Value: Integer);
     procedure SetAlwaysExpand(const Value: Boolean);
-    procedure SetItemStyle(const Value: TSideBarItemStyle);
-    procedure SetSubItemStyle(const Value: TSideBarItemStyle);
-    procedure SetBullets(const Value: TSideBarBulletStyle);
-    procedure SetScrollers(const Value: TSideBarScrollerStyle);
+    procedure SetItemStyle(const Value: TExSideBarItemStyle);
+    procedure SetSubItemStyle(const Value: TExSideBarItemStyle);
+    procedure SetBullets(const Value: TExSideBarBulletStyle);
+    procedure SetScrollers(const Value: TExSideBarScrollerStyle);
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure Paint; override;
-    procedure DrawItem(ACanvas: TCanvas; Rc: TRect; Str: string; States: TSideBarStates;
+    procedure DrawItem(ACanvas: TCanvas; Rc: TRect; Str: string; States: TExSideBarStates;
       ImageIndex: Integer); virtual;
-    procedure DrawSubItem(ACanvas: TCanvas; Rc: TRect; Str: string; States: TSideBarStates); virtual;
+    procedure DrawSubItem(ACanvas: TCanvas; Rc: TRect; Str: string; States: TExSideBarStates); virtual;
     procedure DrawNonItem(ACanvas: TCanvas; Rc: TRect); virtual;
     procedure DrawScroller(ACanvas: TCanvas; Rc: TRect; Up: Boolean; Hover: Boolean); virtual;
     procedure InvalidateItem(Index: Integer); virtual;
@@ -343,16 +353,16 @@ type
     {$ENDIF}
 
   published
-    property ItemStyle: TSideBarItemStyle read FItemStyle write SetItemStyle;
-    property SubItemStyle: TSideBarItemStyle read FSubItemStyle write SetSubItemStyle;
-    property Bullets: TSideBarBulletStyle read FBullets write SetBullets;
-    property Scrollers: TSideBarScrollerStyle read FScrollers write SetScrollers;
-    property Items: TSideBarItems read FItems write SetItems;
+    property ItemStyle: TExSideBarItemStyle read FItemStyle write SetItemStyle;
+    property SubItemStyle: TExSideBarItemStyle read FSubItemStyle write SetSubItemStyle;
+    property Bullets: TExSideBarBulletStyle read FBullets write SetBullets;
+    property Scrollers: TExSideBarScrollerStyle read FScrollers write SetScrollers;
+    property Items: TExSideBarItems read FItems write SetItems;
     property ItemIndex: Integer read FItemIndex write SetItemIndex default -1;
     property SubItemIndex: Integer read FSubItemIndex write SetSubItemIndex default -1;
     property ItemHeight: Integer read FItemHeight write SetItemHeight stored IsStoredItemHeight;
     property SubItemHeight: Integer read FSubItemHeight write SetSubItemHeight stored IsStoredSubItemHeight;
-    property Alignment: TSideBarAlign read FAlignment write SetAlignment default saLeft;
+    property Alignment: TExSideBarAlign read FAlignment write SetAlignment default saLeft;
     property Margin: Integer read FMargin write SetMargin stored IsStoredMargin;
     property GroupSeparator: Integer read FGroupSeparator write SetGroupSeparator stored IsStoredGroupSeparator;
     property Indent: Integer read FIndent write SetIndent stored IsStoredIndent;
@@ -362,12 +372,12 @@ type
     property SelectedImages: TImageList read FSelectedImages write SetSelectedImages;
     property DisabledImages: TImageList read FDisabledImages write SetDisabledImages;
     property HandPointCursor: Boolean read FHandPointCursor write SetHandPointCursor default False;
-    property OnHover: TSideBarEvent read FOnHover write FOnHover;
-    property OnSelect: TSideBarEvent read FOnSelect write FOnSelect;
-    property OnCustomDrawItem: TSideBarCustomDrawItem read FOnCustomDrawItem write FOnCustomDrawItem;
-    property OnCustomDrawSubItem: TSideBarCustomDrawSubItem read FOnCustomDrawSubItem write FOnCustomDrawSubItem;
-    property OnCustomDrawNonItem: TSideBarCustomDrawNonItem read FOnCustomDrawNonItem write FOnCustomDrawNonItem;
-    property OnCustomDrawScroller: TSideBarCustomDrawScroller read FOnCustomDrawScroller write FOnCustomDrawScroller;
+    property OnHover: TExSideBarEvent read FOnHover write FOnHover;
+    property OnSelect: TExSideBarEvent read FOnSelect write FOnSelect;
+    property OnCustomDrawItem: TExSideBarCustomDrawItem read FOnCustomDrawItem write FOnCustomDrawItem;
+    property OnCustomDrawSubItem: TExSideBarCustomDrawSubItem read FOnCustomDrawSubItem write FOnCustomDrawSubItem;
+    property OnCustomDrawNonItem: TExSideBarCustomDrawNonItem read FOnCustomDrawNonItem write FOnCustomDrawNonItem;
+    property OnCustomDrawScroller: TExSideBarCustomDrawScroller read FOnCustomDrawScroller write FOnCustomDrawScroller;
     property Anchors;
     property BevelInner;
     property BevelOuter;
@@ -419,9 +429,9 @@ begin
 end;
 {$HINTS ON}
 
-{ TSideBarItem }
+{ TExSideBarItem }
 
-constructor TSideBarItem.Create(Collection: TCollection);
+constructor TExSideBarItem.Create(Collection: TCollection);
 begin
   FItems := TStringList.Create;
   FItems.OnChange := ItemsChange;
@@ -434,47 +444,47 @@ begin
   inherited Create(Collection);
 end;
 
-destructor TSideBarItem.Destroy;
+destructor TExSideBarItem.Destroy;
 begin
   inherited Destroy;
   FItems.Free;
   FStates.Free;
 end;
 
-procedure TSideBarItem.Assign(Source: TPersistent);
+procedure TExSideBarItem.Assign(Source: TPersistent);
 begin
-  if (Source is TSideBarItem) then
+  if (Source is TExSideBarItem) then
   begin
-    FCaption    := TSideBarItem(Source).Caption;
-    FImageIndex := TSideBarItem(Source).ImageIndex;
-    FTag        := TSideBarItem(Source).Tag;
-    FExpanded   := TSideBarItem(Source).Expanded;
-    FItems.Assign(TSideBarItem(Source).Items);
-    FStates.Assign(TSideBarItem(Source).FStates);
+    FCaption    := TExSideBarItem(Source).Caption;
+    FImageIndex := TExSideBarItem(Source).ImageIndex;
+    FTag        := TExSideBarItem(Source).Tag;
+    FExpanded   := TExSideBarItem(Source).Expanded;
+    FItems.Assign(TExSideBarItem(Source).Items);
+    FStates.Assign(TExSideBarItem(Source).FStates);
     Changed(True);
   end;
 end;
 
-procedure TSideBarItem.ItemsChange(Sender: TObject);
+procedure TExSideBarItem.ItemsChange(Sender: TObject);
 begin
   if (FItems.Count = 0)
     then FStates.Clear;
   Changed(True);
 end;
 
-function TSideBarItem.GetSideBar: TNiceSideBar;
+function TExSideBarItem.GetSideBar: TExNiceSideBar;
 begin
-  Result := TSideBarItems(Collection).FSideBar;
+  Result := TExSideBarItems(Collection).FSideBar;
 end;
 
-function TSideBarItem.GetDisplayName: string;
+function TExSideBarItem.GetDisplayName: string;
 begin
   if (FCaption <> '')
     then Result := FCaption
     else Result := inherited GetDisplayName;
 end;
 
-procedure TSideBarItem.SetCaption(Value: string);
+procedure TExSideBarItem.SetCaption(Value: string);
 begin
   if (FCaption <> Value) then
   begin
@@ -483,7 +493,7 @@ begin
   end;
 end;
 
-procedure TSideBarItem.SetImageIndex(Value: TImageIndex);
+procedure TExSideBarItem.SetImageIndex(Value: TImageIndex);
 begin
   if (FImageIndex <> Value) then
   begin
@@ -492,23 +502,23 @@ begin
   end;
 end;
 
-procedure TSideBarItem.SetItems(Value: TStringList);
+procedure TExSideBarItem.SetItems(Value: TStringList);
 begin
   FItems.Assign(Value);
   Changed(GetSideBar.ItemIndex = Index);
 end;
 
-procedure TSideBarItem.Collapse;
+procedure TExSideBarItem.Collapse;
 begin
   SetExpanded(False);
 end;
 
-procedure TSideBarItem.Expand;
+procedure TExSideBarItem.Expand;
 begin
   SetExpanded(True);
 end;
 
-procedure TSideBarItem.SetExpanded(const Value: Boolean);
+procedure TExSideBarItem.SetExpanded(const Value: Boolean);
 begin
   if (FExpanded <> Value) then
   begin
@@ -517,14 +527,14 @@ begin
   end;  
 end;
 
-function TSideBarItem.GetItemEnabled(Index: Integer): Boolean;
+function TExSideBarItem.GetItemEnabled(Index: Integer): Boolean;
 begin
   Result := True;
   if (FStates.Count > Index)
     then Result := (NativeUInt(FStates[Index]) and SBITEM_STATE_DISABLED) = 0;
 end;
 
-procedure TSideBarItem.SetItemEnabled(Index: Integer; const Value: Boolean);
+procedure TExSideBarItem.SetItemEnabled(Index: Integer; const Value: Boolean);
 var
   State: NativeUInt;
 begin
@@ -538,14 +548,14 @@ begin
   Changed(True);
 end;
 
-function TSideBarItem.GetItemVisible(Index: Integer): Boolean;
+function TExSideBarItem.GetItemVisible(Index: Integer): Boolean;
 begin
   Result := True;
   if (FStates.Count > Index)
     then Result := (NativeUInt(FStates[Index]) and SBITEM_STATE_HIDDEN) = 0;
 end;
 
-procedure TSideBarItem.SetItemVisible(Index: Integer; const Value: Boolean);
+procedure TExSideBarItem.SetItemVisible(Index: Integer; const Value: Boolean);
 var
   State: NativeUInt;
 begin
@@ -566,7 +576,7 @@ begin
   Changed(True);
 end;
 
-procedure TSideBarItem.SetEnabled(const Value: Boolean);
+procedure TExSideBarItem.SetEnabled(const Value: Boolean);
 begin
   if (FEnabled <> Value) then
   begin
@@ -575,7 +585,7 @@ begin
   end;  
 end;
 
-procedure TSideBarItem.SetVisible(const Value: Boolean);
+procedure TExSideBarItem.SetVisible(const Value: Boolean);
 begin
   if (FVisible <> Value) then
   begin
@@ -593,21 +603,21 @@ begin
   end;
 end;
 
-{ TSideBarItems }
+{ TExSideBarItems }
 
-constructor TSideBarItems.Create(ASideBar: TNiceSideBar);
+constructor TExSideBarItems.Create(ASideBar: TExNiceSideBar);
 begin
-  inherited Create(TSideBarItem);
+  inherited Create(TExSideBarItem);
   FSideBar := ASideBar;
 end;
 
-function TSideBarItems.Add: TSideBarItem;
+function TExSideBarItems.Add: TExSideBarItem;
 begin
-  Result := TSideBarItem(inherited Add);
+  Result := TExSideBarItem(inherited Add);
 end;
 
-function TSideBarItems.AddItem(Item: TSideBarItem;
-  Index: Integer): TSideBarItem;
+function TExSideBarItems.AddItem(Item: TExSideBarItem;
+  Index: Integer): TExSideBarItem;
 begin
   if (Item = nil)
     then Result := FSideBar.CreateItem
@@ -624,27 +634,27 @@ begin
     end;
 end;
 
-function TSideBarItems.GetItem(Index: Integer): TSideBarItem;
+function TExSideBarItems.GetItem(Index: Integer): TExSideBarItem;
 begin
-  Result := TSideBarItem(inherited GetItem(Index));
+  Result := TExSideBarItem(inherited GetItem(Index));
 end;
 
-function TSideBarItems.GetOwner: TPersistent;
+function TExSideBarItems.GetOwner: TPersistent;
 begin
   Result := FSideBar;
 end;
 
-function TSideBarItems.Insert(Index: Integer): TSideBarItem;
+function TExSideBarItems.Insert(Index: Integer): TExSideBarItem;
 begin
   Result := AddItem(nil, Index);
 end;
 
-procedure TSideBarItems.SetItem(Index: Integer; Value: TSideBarItem);
+procedure TExSideBarItems.SetItem(Index: Integer; Value: TExSideBarItem);
 begin
   inherited SetItem(Index, Value);
 end;
 
-procedure TSideBarItems.Update(Item: TCollectionItem);
+procedure TExSideBarItems.Update(Item: TCollectionItem);
 begin
   if (Count = 0) then
   begin
@@ -658,9 +668,9 @@ begin
 end;
 
 
-{ TNiceSidebar }
+{ TExNiceSideBar }
 
-constructor TNiceSidebar.Create(AOwner: TComponent);
+constructor TExNiceSideBar.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
@@ -697,26 +707,26 @@ begin
   FIndent := DEFAULT_INDENT;
   FAlwaysExpand := True;
 
-  FItemStyle := TSideBarItemStyle.Create(Self);
+  FItemStyle := TExSideBarItemStyle.Create(Self);
   FItemStyle.FNormalFont.Style := [fsBold];
   FItemStyle.FHoverFont.Style := [fsBold];
   FItemStyle.FSelectedFont.Style := [fsBold];
   FItemStyle.FDisabledFont.Style := [fsBold];
   FItemStyle.Activate;
 
-  FSubItemStyle := TSideBarItemStyle.Create(Self);
+  FSubItemStyle := TExSideBarItemStyle.Create(Self);
   FSubItemStyle.Activate;
 
-  FBullets := TSideBarBulletStyle.Create(Self);
-  FScrollers := TSideBarScrollerStyle.Create(Self);
+  FBullets := TExSideBarBulletStyle.Create(Self);
+  FScrollers := TExSideBarScrollerStyle.Create(Self);
 
   FList := TList.Create;
-  FItems := TSideBarItems.Create(Self);
+  FItems := TExSideBarItems.Create(Self);
 
   IsUpdating := False;
 end;
 
-destructor TNiceSidebar.Destroy;
+destructor TExNiceSideBar.Destroy;
 begin
   FItems.Free;
   ClearList;
@@ -730,7 +740,7 @@ end;
 
 {$IFDEF FPC}
 // Handle Lazarus' High-DPI scaling
-procedure TNiceSidebar.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+procedure TExNiceSideBar.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
   const AXProportion, AYProportion: Double);
 begin
   inherited DoAutoAdjustLayout(AMode, AXProportion, AYProportion);
@@ -745,7 +755,7 @@ begin
   end;
 end;
 
-procedure TNiceSidebar.FixDesignFontsPPI(const ADesignTimePPI: Integer);
+procedure TExNiceSideBar.FixDesignFontsPPI(const ADesignTimePPI: Integer);
 begin
   inherited;
 
@@ -760,7 +770,7 @@ begin
   DoFixDesignFontPPI(FSubItemStyle.DisabledFont, ADesignTimePPI);
 end;
 
-procedure TNiceSidebar.ScaleFontsPPI(const AToPPI: Integer; const AProportion: Double);
+procedure TExNiceSideBar.ScaleFontsPPI(const AToPPI: Integer; const AProportion: Double);
 begin
   inherited;
 
@@ -776,7 +786,7 @@ begin
 end;
 {$ENDIF}
 
-procedure TNiceSidebar.MouseDown(Button: TMouseButton; Shift: TShiftState;
+procedure TExNiceSideBar.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 var
   i: Integer;
@@ -895,7 +905,7 @@ begin
   inherited;
 end;
 
-procedure TNiceSidebar.MouseMove(Shift: TShiftState; X, Y: Integer);
+procedure TExNiceSideBar.MouseMove(Shift: TShiftState; X, Y: Integer);
 var
   i: Integer;
   P: PSBInfo;
@@ -976,7 +986,7 @@ begin
 
 end;
 
-procedure TNiceSideBar.CMMouseLeave(var Msg: {$IFDEF FPC}TLMessage{$ELSE}TMessage{$ENDIF});
+procedure TExNiceSideBar.CMMouseLeave(var Msg: {$IFDEF FPC}TLMessage{$ELSE}TMessage{$ENDIF});
 begin
   Unused(Msg);
   if (HoverIndex <> -1) then
@@ -990,7 +1000,7 @@ begin
     then FOnHover(Self, -1, -1, '');
 end;
 
-procedure TNiceSideBar.ClearList;
+procedure TExNiceSideBar.ClearList;
 var
   x: Integer;
 begin
@@ -999,11 +1009,11 @@ begin
   FList.Clear;
 end;
 
-procedure TNiceSideBar.ListChange(RebuildItems: Boolean);
+procedure TExNiceSideBar.ListChange(RebuildItems: Boolean);
 var
   P: PSBInfo;
   x, y, v: Integer;
-  Item: TSideBarItem;
+  Item: TExSideBarItem;
   delta: Integer;
 begin
   if IsUpdating
@@ -1085,7 +1095,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.InvalidateItem(Index: Integer);
+procedure TExNiceSideBar.InvalidateItem(Index: Integer);
 var
   Rc: TRect;
   Info: PSBInfo;
@@ -1107,10 +1117,10 @@ begin
   InvalidateRect(Handle, @Rc, false);
 end;
 
-procedure TNiceSideBar.DoDrawItem(Index: Integer);
+procedure TExNiceSideBar.DoDrawItem(Index: Integer);
 var
   Info: PSBInfo;
-  States: TSideBarStates;
+  States: TExSideBarStates;
   Rc, Tmp: TRect;
 begin
   if (Index = SCTOPINDEX) then
@@ -1186,8 +1196,8 @@ begin
 
 end;
 
-procedure TNiceSideBar.DrawItem(ACanvas: TCanvas; Rc: TRect; Str: string;
-  States: TSideBarStates; ImageIndex: Integer);
+procedure TExNiceSideBar.DrawItem(ACanvas: TCanvas; Rc: TRect; Str: string;
+  States: TExSideBarStates; ImageIndex: Integer);
 var
   w, h, x, y: Integer;
   RcItem: TRect;
@@ -1321,8 +1331,8 @@ begin
 
 end;
 
-procedure TNiceSideBar.DrawSubItem(ACanvas: TCanvas; Rc: TRect;
-  Str: string; States: TSideBarStates);
+procedure TExNiceSideBar.DrawSubItem(ACanvas: TCanvas; Rc: TRect;
+  Str: string; States: TExSideBarStates);
 const
   Separator = 7;
 var
@@ -1464,7 +1474,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.DrawNonItem(ACanvas: TCanvas; Rc: TRect);
+procedure TExNiceSideBar.DrawNonItem(ACanvas: TCanvas; Rc: TRect);
 begin
   with ACanvas do
   begin
@@ -1474,7 +1484,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.DrawScroller(ACanvas: TCanvas; Rc: TRect;
+procedure TExNiceSideBar.DrawScroller(ACanvas: TCanvas; Rc: TRect;
   Up: Boolean; Hover: Boolean);
 var
   Old: TColor;
@@ -1541,7 +1551,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.Paint;
+procedure TExNiceSideBar.Paint;
 var
   x, v: Integer;
   Rc: TRect;
@@ -1581,7 +1591,7 @@ begin
 
 end;
 
-function TNiceSideBar.GetIndexAtPos(X, Y: Integer): Integer;
+function TExNiceSideBar.GetIndexAtPos(X, Y: Integer): Integer;
 var
   i: Integer;
   Pt: TPoint;
@@ -1598,12 +1608,12 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.WMEraseBkgnd(var Msg: {$IFDEF FPC}TLMessage{$ELSE}TMessage{$ENDIF});
+procedure TExNiceSideBar.WMEraseBkgnd(var Msg: {$IFDEF FPC}TLMessage{$ELSE}TMessage{$ENDIF});
 begin
   Msg.Result := 1;
 end;
 
-procedure TNiceSideBar.WMSize(var Msg: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF});
+procedure TExNiceSideBar.WMSize(var Msg: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF});
 begin
   Unused(Msg);
   TopIndex := 0;
@@ -1611,13 +1621,13 @@ begin
   Invalidate;
 end;
 
-procedure TNiceSidebar.CMColorChanged(var Msg: {$IFDEF FPC}TLMessage{$ELSE}TMessage{$ENDIF});
+procedure TExNiceSideBar.CMColorChanged(var Msg: {$IFDEF FPC}TLMessage{$ELSE}TMessage{$ENDIF});
 begin
   Unused(Msg);
   Invalidate;
 end;
 
-procedure TNiceSideBar.Notification(AComponent: TComponent;
+procedure TExNiceSideBar.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited;
@@ -1646,12 +1656,12 @@ begin
   end;
 end;
 
-function TNiceSideBar.CreateItem: TSideBarItem;
+function TExNiceSideBar.CreateItem: TExSideBarItem;
 begin
-  Result := TSideBarItem.Create(FItems);
+  Result := TExSideBarItem.Create(FItems);
 end;
 
-procedure TNiceSideBar.UpdateItem(Index: Integer);
+procedure TExNiceSideBar.UpdateItem(Index: Integer);
 var
   x, i: Integer;
   P: PSBInfo;
@@ -1669,38 +1679,38 @@ begin
   InvalidateItem(i);
 end;
 
-procedure TNiceSideBar.UpdateItems;
+procedure TExNiceSideBar.UpdateItems;
 begin
   ListChange(True);
   Invalidate;
 end;
 
-function TNiceSideBar.IsStoredItemHeight: Boolean;
+function TExNiceSideBar.IsStoredItemHeight: Boolean;
 begin
   Result := FItemHeight <> DEFAULT_ITEMHEIGHT;
 end;
 
-function TNiceSideBar.IsStoredSubItemHeight: Boolean;
+function TExNiceSideBar.IsStoredSubItemHeight: Boolean;
 begin
   Result := FSubItemHeight <> DEFAULT_SUBITEMHEIGHT;
 end;
 
-function TNiceSideBar.IsStoredMargin: Boolean;
+function TExNiceSideBar.IsStoredMargin: Boolean;
 begin
   Result := FMargin <> DEFAULT_MARGIN;
 end;
 
-function TNiceSideBar.IsStoredIndent: Boolean;
+function TExNiceSideBar.IsStoredIndent: Boolean;
 begin
   Result := FIndent <> DEFAULT_INDENT;
 end;
 
-function TNiceSideBar.IsStoredGroupSeparator: Boolean;
+function TExNiceSideBar.IsStoredGroupSeparator: Boolean;
 begin
   Result := FGroupSeparator <> DEFAULT_GROUPSEPARATOR;
 end;
 
-procedure TNiceSideBar.SetItemIndex(Value: Integer);
+procedure TExNiceSideBar.SetItemIndex(Value: Integer);
 var
   x: Integer;
   Redraw: Boolean;
@@ -1750,7 +1760,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetSubItemIndex(Value: Integer);
+procedure TExNiceSideBar.SetSubItemIndex(Value: Integer);
 var
   x, i: Integer;
   P: PSBInfo;
@@ -1786,7 +1796,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetItemHeight(Value: Integer);
+procedure TExNiceSideBar.SetItemHeight(Value: Integer);
 begin
   if (FItemHeight <> Value) then
   begin
@@ -1796,7 +1806,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetSubItemHeight(Value: Integer);
+procedure TExNiceSideBar.SetSubItemHeight(Value: Integer);
 begin
   if (FSubItemHeight <> Value) then
   begin
@@ -1806,7 +1816,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetAlignment(Value: TSideBarAlign);
+procedure TExNiceSideBar.SetAlignment(Value: TExSideBarAlign);
 begin
   if (FAlignment <> Value) then
   begin
@@ -1815,12 +1825,12 @@ begin
   end;
 end;
 
-procedure TNiceSidebar.SetItems(Value: TSideBarItems);
+procedure TExNiceSideBar.SetItems(Value: TExSideBarItems);
 begin
   FItems.Assign(Value);
 end;
 
-procedure TNiceSideBar.SetImages(Value: TImageList);
+procedure TExNiceSideBar.SetImages(Value: TImageList);
 begin
   if (FImages <> Value) then
   begin
@@ -1829,7 +1839,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetHoverImages(Value: TImageList);
+procedure TExNiceSideBar.SetHoverImages(Value: TImageList);
 begin
   if (FHoverImages <> Value) then
   begin
@@ -1838,7 +1848,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetSelectedImages(Value: TImageList);
+procedure TExNiceSideBar.SetSelectedImages(Value: TImageList);
 begin
   if (FSelectedImages <> Value) then
   begin
@@ -1847,7 +1857,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetDisabledImages(Value: TImageList);
+procedure TExNiceSideBar.SetDisabledImages(Value: TImageList);
 begin
   if (FDisabledImages <> Value) then
   begin
@@ -1856,7 +1866,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetHandPointCursor(Value: Boolean);
+procedure TExNiceSideBar.SetHandPointCursor(Value: Boolean);
 begin
   if (FHandPointCursor <> Value) then
   begin
@@ -1865,7 +1875,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetMargin(const Value: Integer);
+procedure TExNiceSideBar.SetMargin(const Value: Integer);
 begin
   if (FMargin <> Value) then
   begin
@@ -1875,7 +1885,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetGroupSeparator(const Value: Integer);
+procedure TExNiceSideBar.SetGroupSeparator(const Value: Integer);
 begin
   if (FGroupSeparator <> Value) then
   begin
@@ -1885,12 +1895,12 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.BeginUpdate;
+procedure TExNiceSideBar.BeginUpdate;
 begin
   IsUpdating := True;
 end;
 
-procedure TNiceSideBar.EndUpdate;
+procedure TExNiceSideBar.EndUpdate;
 begin
   IsUpdating := False;
   FItemIndex := -1;
@@ -1904,7 +1914,7 @@ begin
   Invalidate;
 end;
 
-procedure TNiceSideBar.SetIndent(const Value: Integer);
+procedure TExNiceSideBar.SetIndent(const Value: Integer);
 begin
   if (FIndent <> Value) then
   begin
@@ -1913,7 +1923,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetAlwaysExpand(const Value: Boolean);
+procedure TExNiceSideBar.SetAlwaysExpand(const Value: Boolean);
 begin
   if (FAlwaysExpand <> Value) then
   begin
@@ -1926,27 +1936,27 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.SetItemStyle(const Value: TSideBarItemStyle);
+procedure TExNiceSideBar.SetItemStyle(const Value: TExSideBarItemStyle);
 begin
   FItemStyle.Assign(Value);
 end;
 
-procedure TNiceSideBar.SetSubItemStyle(const Value: TSideBarItemStyle);
+procedure TExNiceSideBar.SetSubItemStyle(const Value: TExSideBarItemStyle);
 begin
   FSubItemStyle.Assign(Value);
 end;
 
-procedure TNiceSideBar.SetBullets(const Value: TSideBarBulletStyle);
+procedure TExNiceSideBar.SetBullets(const Value: TExSideBarBulletStyle);
 begin
   FBullets := Value;
 end;
 
-procedure TNiceSideBar.SetScrollers(const Value: TSideBarScrollerStyle);
+procedure TExNiceSideBar.SetScrollers(const Value: TExSideBarScrollerStyle);
 begin
   FScrollers := Value;
 end;
 
-procedure TNiceSideBar.WMMouseWheel(var Msg: {$IFDEF FPC}TLMMouseEvent{$ELSE}TWMMouseWheel{$ENDIF});
+procedure TExNiceSideBar.WMMouseWheel(var Msg: {$IFDEF FPC}TLMMouseEvent{$ELSE}TWMMouseWheel{$ENDIF});
 begin
   if (Msg.WheelDelta > 0) and ScTopVisible then
   begin
@@ -1964,7 +1974,7 @@ begin
     inherited;
 end;
 
-procedure TNiceSideBar.CMWantSpecialKey(var Message: {$IFDEF FPC}TLMKey{$ELSE}TWMKey{$ENDIF});
+procedure TExNiceSideBar.CMWantSpecialKey(var Message: {$IFDEF FPC}TLMKey{$ELSE}TWMKey{$ENDIF});
 begin
   inherited;
   with Message do
@@ -1974,7 +1984,7 @@ begin
   end;
 end;
 
-procedure TNiceSideBar.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TExNiceSideBar.KeyDown(var Key: Word; Shift: TShiftState);
 var
   Rc: TRect;
   x, y, i: Integer;
@@ -2065,9 +2075,9 @@ begin
   inherited;
 end;
 
-{ TSideBarItemStyle }
+{ TExSideBarItemStyle }
 
-constructor TSideBarItemStyle.Create(SideBar: TNiceSideBar);
+constructor TExSideBarItemStyle.Create(SideBar: TExNiceSideBar);
 begin
   inherited Create;
   FSideBar := SideBar;
@@ -2087,7 +2097,7 @@ begin
   FLineColor := clWindowText;
 end;
 
-destructor TSideBarItemStyle.Destroy;
+destructor TExSideBarItemStyle.Destroy;
 begin
   FNormalFont.Free;
   FHoverFont.Free;
@@ -2096,11 +2106,11 @@ begin
   inherited Destroy;
 end;
 
-procedure TSideBarItemStyle.AssignTo(Dest: TPersistent);
+procedure TExSideBarItemStyle.AssignTo(Dest: TPersistent);
 begin
-  if (Dest is TSideBarItemStyle) then
+  if (Dest is TExSideBarItemStyle) then
   begin
-    with TSideBarItemStyle(Dest) do
+    with TExSideBarItemStyle(Dest) do
     begin
       Deactivate;
       FNormalFont.Assign(Self.FNormalFont);
@@ -2117,31 +2127,31 @@ begin
     inherited AssignTo(Dest);
 end;
 
-procedure TSideBarItemStyle.Activate;
+procedure TExSideBarItemStyle.Activate;
 begin
   FNormalFont.OnChange := FontChange;
   FSelectedFont.OnChange := FontChange;
   FDisabledFont.OnChange := FontChange;
 end;
 
-procedure TSideBarItemStyle.Deactivate;
+procedure TExSideBarItemStyle.Deactivate;
 begin
   FNormalFont.OnChange := nil;
   FSelectedFont.OnChange := nil;
   FDisabledFont.OnChange := nil;
 end;
 
-procedure TSideBarItemStyle.FontChange(Sender: TObject);
+procedure TExSideBarItemStyle.FontChange(Sender: TObject);
 begin
   FSideBar.Invalidate;
 end;
 
-procedure TSideBarItemStyle.SetHoverFont(const Value: TFont);
+procedure TExSideBarItemStyle.SetHoverFont(const Value: TFont);
 begin
   FHoverFont.Assign(Value);
 end;
 
-procedure TSideBarItemStyle.SetLineColor(const Value: TColor);
+procedure TExSideBarItemStyle.SetLineColor(const Value: TColor);
 begin
   if (FLineColor <> Value) then
   begin
@@ -2150,7 +2160,7 @@ begin
   end;
 end;
 
-procedure TSideBarItemStyle.SetNormalColor(const Value: TColor);
+procedure TExSideBarItemStyle.SetNormalColor(const Value: TColor);
 begin
   if (FNormalColor <> Value) then
   begin
@@ -2159,12 +2169,12 @@ begin
   end;
 end;
 
-procedure TSideBarItemStyle.SetNormalFont(const Value: TFont);
+procedure TExSideBarItemStyle.SetNormalFont(const Value: TFont);
 begin
   FNormalFont.Assign(Value);
 end;
 
-procedure TSideBarItemStyle.SetSelectedColor(const Value: TColor);
+procedure TExSideBarItemStyle.SetSelectedColor(const Value: TColor);
 begin
   if (FSelectedColor <> Value) then
   begin
@@ -2173,19 +2183,19 @@ begin
   end;
 end;
 
-procedure TSideBarItemStyle.SetSelectedFont(const Value: TFont);
+procedure TExSideBarItemStyle.SetSelectedFont(const Value: TFont);
 begin
   FSelectedFont.Assign(Value);
 end;
 
-procedure TSideBarItemStyle.SetDisabledFont(const Value: TFont);
+procedure TExSideBarItemStyle.SetDisabledFont(const Value: TFont);
 begin
   FDisabledFont.Assign(Value);
 end;
 
-{ TSideBarBulletStyle }
+{ TExSideBarBulletStyle }
 
-constructor TSideBarBulletStyle.Create(SideBar: TNiceSideBar);
+constructor TExSideBarBulletStyle.Create(SideBar: TExNiceSideBar);
 begin
   inherited Create;
   FSideBar := SideBar;
@@ -2202,11 +2212,11 @@ begin
   FDisabledPenColor := clGrayText;
 end;
 
-procedure TSideBarBulletStyle.AssignTo(Dest: TPersistent);
+procedure TExSideBarBulletStyle.AssignTo(Dest: TPersistent);
 begin
-  if (Dest is TSideBarBulletStyle) then
+  if (Dest is TExSideBarBulletStyle) then
   begin
-    with TSideBarBulletStyle(Dest) do
+    with TExSideBarBulletStyle(Dest) do
     begin
       FKind := Self.FKind;
       FVisible := Self.FVisible;
@@ -2225,7 +2235,7 @@ begin
     inherited AssignTo(Dest);
 end;
 
-procedure TSideBarBulletStyle.SetKind(const Value: TSideBarBullet);
+procedure TExSideBarBulletStyle.SetKind(const Value: TExSideBarBullet);
 begin
   if (FKind <> Value) then
   begin
@@ -2234,7 +2244,7 @@ begin
   end;
 end;
 
-procedure TSideBarBulletStyle.SetNormalColor(const Value: TColor);
+procedure TExSideBarBulletStyle.SetNormalColor(const Value: TColor);
 begin
   if (FNormalColor <> Value) then
   begin
@@ -2243,7 +2253,7 @@ begin
   end;  
 end;
 
-procedure TSideBarBulletStyle.SetNormalPenColor(const Value: TColor);
+procedure TExSideBarBulletStyle.SetNormalPenColor(const Value: TColor);
 begin
   if (FNormalPenColor <> Value) then
   begin
@@ -2252,7 +2262,7 @@ begin
   end;  
 end;
 
-procedure TSideBarBulletStyle.SetSelectedColor(const Value: TColor);
+procedure TExSideBarBulletStyle.SetSelectedColor(const Value: TColor);
 begin
   if (FSelectedColor <> Value) then
   begin
@@ -2261,7 +2271,7 @@ begin
   end;  
 end;
 
-procedure TSideBarBulletStyle.SetSelectedPenColor(const Value: TColor);
+procedure TExSideBarBulletStyle.SetSelectedPenColor(const Value: TColor);
 begin
   if (FSelectedPenColor <> Value) then
   begin
@@ -2270,7 +2280,7 @@ begin
   end;  
 end;
 
-procedure TSideBarBulletStyle.SetDisabledColor(const Value: TColor);
+procedure TExSideBarBulletStyle.SetDisabledColor(const Value: TColor);
 begin
   if (FDisabledColor <> Value) then
   begin
@@ -2279,7 +2289,7 @@ begin
   end;  
 end;
 
-procedure TSideBarBulletStyle.SetDisabledPenColor(const Value: TColor);
+procedure TExSideBarBulletStyle.SetDisabledPenColor(const Value: TColor);
 begin
   if (FDisabledPenColor <> Value) then
   begin
@@ -2288,7 +2298,7 @@ begin
   end;  
 end;
 
-procedure TSideBarBulletStyle.SetSize(const Value: Integer);
+procedure TExSideBarBulletStyle.SetSize(const Value: Integer);
 begin
   if (FSize <> Value) then
   begin
@@ -2297,7 +2307,7 @@ begin
   end;
 end;
 
-procedure TSideBarBulletStyle.SetVisible(const Value: Boolean);
+procedure TExSideBarBulletStyle.SetVisible(const Value: Boolean);
 begin
   if (FVisible <> Value) then
   begin
@@ -2306,9 +2316,9 @@ begin
   end;
 end;
 
-{ TSideBarScrollerStyle }
+{ TExSideBarScrollerStyle }
 
-constructor TSideBarScrollerStyle.Create(SideBar: TNiceSideBar);
+constructor TExSideBarScrollerStyle.Create(SideBar: TExNiceSideBar);
 begin
   inherited Create;
   FSideBar := SideBar;
@@ -2318,11 +2328,11 @@ begin
   FHoverArrowColor := clBlack;
 end;
 
-procedure TSideBarScrollerStyle.AssignTo(Dest: TPersistent);
+procedure TExSideBarScrollerStyle.AssignTo(Dest: TPersistent);
 begin
-  if (Dest is  TSideBarScrollerStyle) then
+  if (Dest is  TExSideBarScrollerStyle) then
   begin
-    with TSideBarScrollerStyle(Dest) do
+    with TExSideBarScrollerStyle(Dest) do
     begin
       FNormalColor := Self.FNormalColor;
       FNormalArrowColor := Self.FNormalArrowColor;
@@ -2334,7 +2344,7 @@ begin
     inherited AssignTo(Dest);
 end;
 
-procedure TSideBarScrollerStyle.SetNormalArrowColor(const Value: TColor);
+procedure TExSideBarScrollerStyle.SetNormalArrowColor(const Value: TColor);
 begin
   if (FNormalArrowColor <> Value) then
   begin
@@ -2343,7 +2353,7 @@ begin
   end;
 end;
 
-procedure TSideBarScrollerStyle.SetNormalColor(const Value: TColor);
+procedure TExSideBarScrollerStyle.SetNormalColor(const Value: TColor);
 begin
   if (FNormalColor <> Value) then
   begin

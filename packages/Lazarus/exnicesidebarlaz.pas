@@ -2,21 +2,21 @@
   This source is only used to compile and install the package.
  }
 
-unit NiceSidebarLaz;
+unit ExNiceSidebarLaz;
 
 {$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  NiceSideBar, NiceSideBarReg, LazarusPackageIntf;
+  ExNiceSideBar, ExNiceSideBarReg, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
-  RegisterUnit('NiceSideBarReg', @NiceSideBarReg.Register);
+  RegisterUnit('ExNiceSideBarReg', @ExNiceSideBarReg.Register);
 end;
 
 initialization
-  RegisterPackage('NiceSidebarLaz', @Register);
+  RegisterPackage('ExNiceSidebarLaz', @Register);
 end.

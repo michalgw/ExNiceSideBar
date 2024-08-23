@@ -2,7 +2,7 @@
 <CONFIG>
   <Package Version="5">
     <PathDelim Value="\"/>
-    <Name Value="NiceSidebarLaz"/>
+    <Name Value="ExNiceSidebarLaz"/>
     <Type Value="RunAndDesignTime"/>
     <Author Value="Priyatna"/>
     <CompilerOptions>
@@ -13,18 +13,18 @@
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
-    <Description Value="NiceSideBar is a visual component for Delphi and Lazarus that can be used as a menu. It mimics a side menu that usually used in websites. It has a flat design and is highly customizable. It supports two menu levels (menu and sub menu). Each menu can have a glyph that is supplied by an image list. It has hover state effect, too."/>
+    <Description Value="ExNiceSideBar is a visual component for Delphi and Lazarus that can be used as a menu. It mimics a side menu that usually used in websites. It has a flat design and is highly customizable. It supports two menu levels (menu and sub menu). Each menu can have a glyph that is supplied by an image list. It has hover state effect, too."/>
     <License Value="MPL 1.1"/>
     <Version Major="2"/>
     <Files Count="2">
       <Item1>
-        <Filename Value="..\..\source\NiceSideBar.pas"/>
-        <UnitName Value="NiceSideBar"/>
+        <Filename Value="..\..\source\ExNiceSideBar.pas"/>
+        <UnitName Value="ExNiceSideBar"/>
       </Item1>
       <Item2>
-        <Filename Value="..\..\source\NiceSideBarReg.pas"/>
+        <Filename Value="..\..\source\ExNiceSideBarReg.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="NiceSideBarReg"/>
+        <UnitName Value="ExNiceSideBarReg"/>
       </Item2>
     </Files>
     <CompatibilityMode Value="True"/>

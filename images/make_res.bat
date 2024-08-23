@@ -1,1 +1,1 @@
-lazres ../source/nicesidebar_images.res tnicesidebar.bmp
+lazres ../source/exnicesidebar_images.res texnicesidebar.bmp

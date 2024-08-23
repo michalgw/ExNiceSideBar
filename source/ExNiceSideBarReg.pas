@@ -1,4 +1,4 @@
-unit NiceSideBarReg;
+unit ExNiceSideBarReg;
 
 {$IFDEF FPC}
  {$MODE Delphi}
@@ -11,7 +11,7 @@ interface
 implementation
 
 {$IFDEF FPC}
- {$R nicesidebar_images.res}
+ {$R exnicesidebar_images.res}
 {$ENDIF}
 
 uses
@@ -20,10 +20,10 @@ uses
   {$ELSE}
   DesignIntf, DesignEditors, ColnEdit,
   {$ENDIF}
-  Dialogs, Classes, NiceSideBar;
+  Dialogs, Classes, ExNiceSideBar;
 
 type
-  TNiceSideBarEditor = class(TComponentEditor)
+  TExNiceSideBarEditor = class(TComponentEditor)
   public
     procedure ExecuteVerb(Index: Integer); override;
     function GetVerbCount: Integer; override;
@@ -33,12 +33,12 @@ type
 
 { TNiceSideBarEditor }
 
-procedure TNiceSideBarEditor.ExecuteVerb(Index: Integer);
+procedure TExNiceSideBarEditor.ExecuteVerb(Index: Integer);
 begin
   case Index of
 
     0: {$IFDEF FPC}
-       EditCollection(Component, TNiceSideBar(Component).Items, 'Items');
+       EditCollection(Component, TExNiceSideBar(Component).Items, 'Items');
        {$ELSE}
        ShowCollectionEditorClass(Designer, TCollectionEditor, Component,
          TNiceSideBar(Component).Items, 'Items', [coAdd, coDelete, coMove]);
@@ -55,7 +55,7 @@ begin
   end;
 end;
 
-function TNiceSideBarEditor.GetVerb(Index: Integer): string;
+function TExNiceSideBarEditor.GetVerb(Index: Integer): string;
 begin
   case Index of
     0: Result := 'Edit Items ...';
@@ -63,7 +63,7 @@ begin
   end;
 end;
 
-function TNiceSideBarEditor.GetVerbCount: Integer;
+function TExNiceSideBarEditor.GetVerbCount: Integer;
 begin
   Result := 2;
 end;
@@ -71,8 +71,8 @@ end;
 
 procedure Register; 
 begin
-  RegisterComponents('priyatna.org', [TNiceSideBar]);
-  RegisterComponentEditor(TNiceSideBar, TNiceSideBarEditor);
+  RegisterComponents('priyatna.org', [TExNiceSideBar]);
+  RegisterComponentEditor(TExNiceSideBar, TExNiceSideBarEditor);
 end;
 
 end.
